@@ -8,8 +8,7 @@ import '../pencil_kit.dart';
 
 /// Optional callback invoked when a web view is first created. [controller] is
 /// the [PencilKitController] for the created pencil kit view.
-typedef PencilKitViewCreatedCallback = void Function(
-    PencilKitController controller);
+typedef PencilKitViewCreatedCallback = void Function(PencilKitController controller);
 
 /// PKTool type enum for [PencilKitController.setPKTool]
 enum ToolType {
@@ -161,8 +160,7 @@ class _PencilKitState extends State<PencilKit> {
       Container(
         color: Colors.red,
         child: const Center(
-          child: Text(
-              'You cannot render PencilKit widget. The platform is not iOS or OS version is lower than 13.0.'),
+          child: Text('You cannot render PencilKit widget. The platform is not iOS or OS version is lower than 13.0.'),
         ),
       );
 
@@ -177,8 +175,7 @@ class _PencilKitState extends State<PencilKit> {
         viewType: 'plugins.mjstudio/flutter_pencil_kit',
         creationParamsCodec: const StandardMessageCodec(),
         onPlatformViewCreated: _onPencilKitPlatformViewCreated,
-        hitTestBehavior:
-            widget.hitTestBehavior ?? PlatformViewHitTestBehavior.opaque,
+        hitTestBehavior: widget.hitTestBehavior ?? PlatformViewHitTestBehavior.opaque,
       );
     } else {
       return _buildUnAvailable();
@@ -187,9 +184,7 @@ class _PencilKitState extends State<PencilKit> {
 }
 
 class PencilKitController {
-  PencilKitController._({required int viewId, required this.widget})
-      : _channel =
-            MethodChannel('plugins.mjstudio/flutter_pencil_kit_$viewId') {
+  PencilKitController._({required int viewId, required this.widget}) : _channel = MethodChannel('plugins.mjstudio/flutter_pencil_kit_$viewId') {
     _channel.setMethodCallHandler(
       (MethodCall call) async {
         if (call.method == 'toolPickerVisibilityDidChange') {
@@ -254,8 +249,7 @@ class PencilKitController {
   ///    // handle error
   ///  }
   /// ```
-  Future<String?> save({required String uri, bool withBase64Data = false}) =>
-      _channel.invokeMethod('save', <Object>[uri, withBase64Data]);
+  Future<String?> save({required String uri, bool withBase64Data = false}) => _channel.invokeMethod('save', <Object>[uri, withBase64Data]);
 
   /// Load drawing data from file system. The absolute uri of file in filesystem should be retrieved other library like 'path_provider'.
   ///
@@ -274,15 +268,14 @@ class PencilKitController {
   ///    // handle error
   ///  }
   /// ```
-  Future<String?> load({required String uri, bool withBase64Data = false}) =>
-      _channel.invokeMethod('load', <Object>[uri, withBase64Data]);
+  Future<String?> load({required String uri, bool withBase64Data = false}) => _channel.invokeMethod('load', <Object>[uri, withBase64Data]);
 
   /// Get current drawing data as base 64 encoded form.
   ///
   /// Throws an [Error] if failed
   /// ```
-  Future<String> getBase64Data() async {
-    return await _channel.invokeMethod('getBase64Data') as String;
+  Future<dynamic> getBase64Data() async {
+    return await _channel.invokeMethod('getBase64Data') as dynamic;
   }
 
   /// Load drawing data from base 64 encoded form.
@@ -298,8 +291,7 @@ class PencilKitController {
   /// // handle error
   /// }
   /// ```
-  Future<void> loadBase64Data(String base64Data) =>
-      _channel.invokeMethod('loadBase64Data', base64Data);
+  Future<void> loadBase64Data(String base64Data) => _channel.invokeMethod('loadBase64Data', base64Data);
 
   /// Set PKTool toolType, width, and color
   ///
@@ -311,9 +303,7 @@ class PencilKitController {
   /// See also:
   ///
   /// * [ToolType] available tool types
-  Future<void> setPKTool(
-          {required ToolType toolType, double? width, Color? color}) =>
-      _channel.invokeMethod('setPKTool', <String, Object?>{
+  Future<void> setPKTool({required ToolType toolType, double? width, Color? color}) => _channel.invokeMethod('setPKTool', <String, Object?>{
         'toolType': toolType.name,
         'width': width,
         'color': color?.value,
