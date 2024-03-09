@@ -326,7 +326,10 @@ private class PencilKitView: UIView {
   }
 
   func getBase64Data() -> Any {
-    canvasView.drawing.dataRepresentation().base64Data()
+    // canvasView.drawing.dataRepresentation().base64Data()
+    let drawingImage =  canvasView.drawing.image(from: rect, scale: scale)
+    let data = drawingImage.pngData()
+    return data;
   }
 
   func loadBase64Data(base64Data: String) throws {
